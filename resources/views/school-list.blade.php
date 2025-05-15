@@ -20,6 +20,28 @@
     <!-- Start Content-->
     <div class="container-fluid">
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{$error}}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{session('success')}}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{session('error')}}
+            </div>
+        @endif
+
         <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3 mt-3">
             <div class="my-auto mb-2">
                 <h2 class="mb-1">School List</h2>
@@ -41,7 +63,7 @@
                         School</a>
                 </div>
                 <div class="mb-2">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#add_company"
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#add_school"
                         class="btn btn-primary d-flex align-items-center"><i class="ri-add-circle-line mx-1"></i>Add
                         School</a>
                 </div>
@@ -112,30 +134,46 @@
 </div>
 
 <!-- Add Company -->
-<div class="modal fade" id="add_company">
+<div class="modal fade" id="add_school">
     <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add Company</h4>
+                <h4 class="modal-title">Add School</h4>
                 <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="ti ti-x"></i>
                 </button>
             </div>
-            <form action="/companies-list" method="post">
+            <form action="/school-list" method="post">
                 @csrf
                 <div class="modal-body pb-0">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-12">
-                                <label class="form-label">Company Name</label>
-                                <input type="text" class="form-control" name="company_name" required>
-                                <input type="hidden" name="type" value="addCompany">
+                                <label class="form-label">School Name</label>
+                                <input type="text" class="form-control" name="school_name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">School Address</label>
+                                <input type="text" class="form-control" name="school_address" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-12">
                                 <label class="form-label">Admin Name</label>
-                                <input type="text" class="form-control" name="admin_name" required>
+                                <input type="text" class="form-control" name="name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">Gender</label>
+                                <select name="gender" class="form-control" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -152,21 +190,21 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-12">
-                                <label class="form-label">Max People</label>
-                                <input type="number" class="form-control" name="max_people" required>
+                                <label class="form-label">Max Staff</label>
+                                <input type="number" class="form-control" name="max_staff" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-12">
-                                <label class="form-label">Expairy Date</label>
-                                <input type="text" class="form-control date" name="expiry_date" id="expiry_date">
+                                <label class="form-label">Expire Date</label>
+                                <input type="date" class="form-control" name="expairy_date" required>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add Company</button>
+                    <button type="submit" class="btn btn-primary">Add School</button>
                 </div>
             </form>
         </div>

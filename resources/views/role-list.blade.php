@@ -101,10 +101,10 @@
                                         <td>1000</td>
                                         <td>
 
-                                            <a href="#edit_company" data-bs-toggle="modal" data-bs-target="#edit_company">
+                                            <a href="#edit_role" data-bs-toggle="modal" data-bs-target="#edit_role" onclick="getRole({{$item->id}})">
                                                 <i class="ri-pencil-fill cursor-pointer"></i> </a>
 
-                                            <a href="#delete_modal" data-bs-toggle="modal" data-bs-target="#delete_modal">
+                                            <a href="#delete_modal" data-bs-toggle="modal" data-bs-target="#delete_modal" onclick="getDeleteRole({{$item->id}})">
                                                 <i class="ms-2 ri-delete-bin-line cursor-pointer" data-bs-toggle="modal"
                                                     data-bs-target="#delete_modal"></i>
                                             </a>
@@ -162,55 +162,31 @@
 </div>
 <!-- /Add Role -->
 
-<!-- Edit Company -->
-<div class="modal fade" id="edit_company">
+<!-- Edit Role -->
+<div class="modal fade" id="edit_role">
     <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Edit Company</h4>
+                <h4 class="modal-title">Edit Role</h4>
                 <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="ti ti-x"></i>
                 </button>
             </div>
-            <form action="/company-edit" method="post">
+            <form action="/role-edit" method="post">
                 @csrf
                 <div class="modal-body pb-0">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-12">
-                                <label class="form-label">Company Name</label>
-                                <input type="text" class="form-control" name="company_name" id="company_name" required>
-                                <input type="hidden" name="company_id" id="company_id">
+                                <label class="form-label">Role Name</label>
+                                <input type="text" class="form-control" name="role_name" id="role_name" required>
+                                <input type="hidden" name="id" id="role_id">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-12">
-                                <label class="form-label">Admin Name</label>
-                                <input type="text" class="form-control" name="admin_name" id="admin_name" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-12">
-                                <label class="form-label">Phone No.</label>
-                                <input type="number" class="form-control" name="phone" id="phone" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-12">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" id="email" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-12">
-                                <label class="form-label">Max People</label>
-                                <input type="number" class="form-control" name="max_people" id="max_people" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-12">
-                                <label class="form-label">Expairy Date</label>
-                                <input type="text" class="form-control date" name="expiry_date" id="edit_expiry_date">
+                                <label class="form-label">School Name</label>
+                                <input type="text" class="form-control" name="school_name" id="school_name" required>
                             </div>
                         </div>
                     </div>
@@ -223,7 +199,7 @@
         </div>
     </div>
 </div>
-<!-- /Edit Company -->
+<!-- /Edit Role -->
 
 
 <!-- Delete Modal -->
@@ -235,11 +211,11 @@
                     <i class="ti ti-trash-x fs-36"></i>
                 </span>
                 <h4 class="mb-1">Confirm Delete</h4>
-                <p class="mb-3">You want to delete this company, this cant be undone once you delete.
+                <p class="mb-3">You want to delete this role, this cant be undone once you delete.
                 </p>
                 <div class="d-flex justify-content-center">
                     <a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
-                    <a onclick="getDelete()" class="btn btn-danger">Yes, Delete</a>
+                    <a onclick="getDelete()" id="btn-role-id" class="btn btn-danger">Yes, Delete</a>
                 </div>
             </div>
         </div>
@@ -273,6 +249,32 @@
 <!-- Datatable Demo Aapp js -->
 <script src="assets/js/pages/demo.datatable-init.js"></script>
 <!-- App js -->
+<script>
+
+    function getDeleteRole(id){
+        $('#btn-role-id').data('role-id',id);
+    }
+
+
+    function getRole(id){
+        $.ajax({
+            url : '/api/getRole/'+id,
+            type : 'GET',
+            dataType : 'json',
+            success : function(response){
+                $('#role_name').val(response.role_name);
+                $('#role_id').val(response.id);
+                $('#school_name').val(response.school_id);          
+            }
+        });
+    }
+
+    function getDelete(){
+        var id = $('#btn-role-id').data('role-id');
+        window.location.href = '/delete-role/'+id;
+    }
+
+</script>
 </body>
 
 </html>
