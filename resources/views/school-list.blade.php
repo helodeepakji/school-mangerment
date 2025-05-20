@@ -91,34 +91,35 @@
                                 </tr>
                             </thead>
                             <tbody id="table_body">
-                                @foreach ($schools as $item)     
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <img src="/assets/images/users/avatar-1.jpg" alt="company-logo" width="32"
-                                            class="rounded-circle">
-                                        {{$item->name}}
-                                    </td>
-                                    <td>
-                                        <img src="/assets/images/users/avatar-1.jpg" alt="company-logo" width="32"
-                                            class="rounded-circle">
-                                        {{$item->admin->name}}
-                                    </td>
-                                    <td>{{$item->max_staff}}</td>
-                                    <td>{{$item->admin->email}} <br> {{$item->admin->phone}}</td>
-                                    <td>{{$item->address}}</td>
-                                    <td>{{$item->expairy_date}}</td>
-                                    <td>
+                                @foreach ($schools as $item)
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <img src="/assets/images/users/avatar-1.jpg" alt="company-logo" width="32"
+                                                class="rounded-circle">
+                                            {{$item->name}}
+                                        </td>
+                                        <td>
+                                            <img src="/assets/images/users/avatar-1.jpg" alt="company-logo" width="32"
+                                                class="rounded-circle">
+                                            {{$item->admin->name}}
+                                        </td>
+                                        <td>{{$item->max_staff}}</td>
+                                        <td>{{$item->admin->email}} <br> {{$item->admin->phone}}</td>
+                                        <td>{{$item->address}}</td>
+                                        <td>{{$item->expairy_date}}</td>
+                                        <td>
 
-                                        <a href="#edit_company" data-bs-toggle="modal" data-bs-target="#edit_company">
-                                            <i class="ri-pencil-fill cursor-pointer"></i> </a>
+                                            <a href="#edit_school" onclick="getSchool({{$item->id}})" data-bs-toggle="modal"
+                                                data-bs-target="#edit_school">
+                                                <i class="ri-pencil-fill cursor-pointer"></i> </a>
 
-                                        <a href="#delete_modal" data-bs-toggle="modal" data-bs-target="#delete_modal">
-                                            <i class="ms-2 ri-delete-bin-line cursor-pointer" data-bs-toggle="modal"
-                                                data-bs-target="#delete_modal"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                            <a href="#delete_modal" data-bs-toggle="modal" data-bs-target="#delete_modal" onclick="getDelete({{$item->id}})">
+                                                <i class="ms-2 ri-delete-bin-line cursor-pointer" data-bs-toggle="modal"
+                                                    data-bs-target="#delete_modal"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -133,7 +134,7 @@
 
 </div>
 
-<!-- Add Company -->
+<!-- Add School -->
 <div class="modal fade" id="add_school">
     <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
@@ -210,33 +211,51 @@
         </div>
     </div>
 </div>
-<!-- /Add Company -->
+<!-- /Add School -->
 
-<!-- Edit Company -->
-<div class="modal fade" id="edit_company">
+<!-- Update School -->
+<div class="modal fade" id="edit_school">
     <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Edit Company</h4>
+                <h4 class="modal-title">Edit School</h4>
                 <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <i class="ti ti-x"></i>
                 </button>
             </div>
-            <form action="/company-edit" method="post">
+            <form action="/school-update" method="post">
                 @csrf
                 <div class="modal-body pb-0">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-12">
-                                <label class="form-label">Company Name</label>
-                                <input type="text" class="form-control" name="company_name" id="company_name" required>
-                                <input type="hidden" name="company_id" id="company_id">
+                                <label class="form-label">School Name</label>
+                                <input type="text" class="form-control" name="school_name" id="school_name" required>
+                                <input type="hidden" name="school_id" id="school_id">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">School Address</label>
+                                <input type="text" class="form-control" name="school_address" id="school_address"
+                                    required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-12">
                                 <label class="form-label">Admin Name</label>
-                                <input type="text" class="form-control" name="admin_name" id="admin_name" required>
+                                <input type="text" class="form-control" name="name" id="name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">Gender</label>
+                                <select name="gender" id="gender" class="form-control" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -253,28 +272,27 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-12">
-                                <label class="form-label">Max People</label>
-                                <input type="number" class="form-control" name="max_people" id="max_people" required>
+                                <label class="form-label">Max Staff</label>
+                                <input type="number" class="form-control" name="max_staff" id="max_staff" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-12">
-                                <label class="form-label">Expairy Date</label>
-                                <input type="text" class="form-control date" name="expiry_date" id="edit_expiry_date">
+                                <label class="form-label">Expire Date</label>
+                                <input type="date" class="form-control" name="expairy_date" id="expairy_date" required>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Save School</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<!-- /Edit Company -->
-
+<!-- /Update School -->
 
 <!-- Delete Modal -->
 <div class="modal fade" id="delete_modal">
@@ -285,11 +303,11 @@
                     <i class="ti ti-trash-x fs-36"></i>
                 </span>
                 <h4 class="mb-1">Confirm Delete</h4>
-                <p class="mb-3">You want to delete this company, this cant be undone once you delete.
+                <p class="mb-3">You want to delete this school, this cant be undone once you delete.
                 </p>
                 <div class="d-flex justify-content-center">
                     <a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
-                    <a onclick="getDelete()" class="btn btn-danger">Yes, Delete</a>
+                    <a onclick="deleteSchool()" class="btn btn-danger">Yes, Delete</a>
                 </div>
             </div>
         </div>
@@ -323,6 +341,36 @@
 <!-- Datatable Demo Aapp js -->
 <script src="assets/js/pages/demo.datatable-init.js"></script>
 <!-- App js -->
+<script>
+    function getSchool(id) {
+        $.ajax({
+            url: '/api/getSchool/' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {                
+                $('#school_name').val(response.name);
+                $('#school_address').val(response.address);
+                $('#school_id').val(response.id);
+                $('#max_staff').val(response.max_staff);
+                $('#expairy_date').val(response.expairy_date);
+                $('#name').val(response.admin.name);
+                $('#phone').val(response.admin.phone);
+                $('#email').val(response.admin.email);
+                $('#gender').val(response.admin.gender);
+            }
+        });
+    }
+
+    function getDelete(id){
+        $('#school_id').val(id);
+    }
+
+    function deleteSchool(){
+        var id = $('#school_id').val();
+        window.location.href = '/delete-school/'+id;
+    }
+
+</script>
 </body>
 
 </html>
