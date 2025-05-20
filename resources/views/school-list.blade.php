@@ -81,34 +81,33 @@
                             <thead>
                                 <tr>
                                     <th>Sno.</th>
-                                    <th>Company Name</th>
+                                    <th>School Name</th>
                                     <th>Admin Name</th>
                                     <th>Max People</th>
                                     <th>Contact</th>
-                                    <th>Expairy date</th>
-                                    <th>Total Leads</th>
+                                    <th>Address</th>
+                                    <th>Expairy Date</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody id="table_body">
+                                @foreach ($schools as $item)     
                                 <tr>
                                     <td>1</td>
                                     <td>
-                                        <img src="assets/images/buildings.png'" alt="company-logo" width="32"
+                                        <img src="/assets/images/users/avatar-1.jpg" alt="company-logo" width="32"
                                             class="rounded-circle">
-                                        Test School
+                                        {{$item->name}}
                                     </td>
                                     <td>
-                                        <img src="assets/images/buildings.png'" alt="company-logo" width="32"
+                                        <img src="/assets/images/users/avatar-1.jpg" alt="company-logo" width="32"
                                             class="rounded-circle">
-                                        Test School
+                                        {{$item->admin->name}}
                                     </td>
-                                    <td>1000</td>
-                                    <td>Deepak
-                                    </td>
-                                    <td>25 May 2025
-                                    </td>
-                                    <td>16</td>
+                                    <td>{{$item->max_staff}}</td>
+                                    <td>{{$item->admin->email}} <br> {{$item->admin->phone}}</td>
+                                    <td>{{$item->address}}</td>
+                                    <td>{{$item->expairy_date}}</td>
                                     <td>
 
                                         <a href="#edit_company" data-bs-toggle="modal" data-bs-target="#edit_company">
@@ -120,6 +119,7 @@
                                         </a>
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
 

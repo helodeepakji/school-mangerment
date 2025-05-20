@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 class SchoolController extends Controller
 {
     public function index() {
-        return view('school-list');
+        $schools = School::with('admin')->get();
+        return view('school-list',compact('schools'));
     }
     
     public function saveSchool(Request $request) {
@@ -24,21 +25,23 @@ class SchoolController extends Controller
         'max_staff' => 'required|integer|min:1', 
         'expairy_date' => 'required|date',
        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email'=> $request->email,
-            'phone' => $request->phone,
-            'gender'=> $request->gender,
-            'password'=> 'password123',
-        ]);
         
-        School::create([
+        $school = School::create([
             'name' => $request->school_name,
             'address'=> $request->school_address,
             'max_staff' => $request->max_staff,
             'expairy_date' => $request->expairy_date,
-            'user_id'=> $user->id,
+        ]);
+
+
+        User::create([
+            'name' => $request->name,
+            'email'=> $request->email,
+            'phone' => $request->phone,
+            'role_id' => 2,
+            'school_id' => $school->id,
+            'gender'=> $request->gender,
+            'password'=> 'password123',
         ]);
 
         return back()->with('success','School Create Successfully');

@@ -78,12 +78,12 @@
         </div>
       </li>
 
-      <li class="side-nav-title">Apps</li>
+      <li class="side-nav-title">Schools</li>
 
       <li class="side-nav-item">
-        <a href="apps-calendar.php" class="side-nav-link">
-          <i class="ri-calendar-event-line"></i>
-          <span> Calendar </span>
+        <a href="/school-list" class="side-nav-link">
+          <i class=" ri-school-line"></i>
+          <span> School List </span>
         </a>
       </li>
 

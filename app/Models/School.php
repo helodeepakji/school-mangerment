@@ -15,6 +15,10 @@ class School extends Model
         'address',
         'expairy_date',
         'max_staff',
-        'user_id',
     ];
+
+    public function admin()
+    {
+        return $this->hasOne(User::class)->where('role_id', 2);
+    }
 }
