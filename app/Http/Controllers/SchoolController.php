@@ -19,15 +19,19 @@ class SchoolController extends Controller
         $schools = School::with('admin')->where('id', $id)->first();
         return response()->json($schools);
     }
-    
+
     public function deleteSchool($id)
     {
-        $users = User::where('school_id',$id);
+        if ($id) {
+            return back()->with('error', 'Admin School is not delete');
+        }
+
+        $users = User::where('school_id', $id);
         $users->delete();
 
-        $schools = School::where('id',$id);
+        $schools = School::where('id', $id);
         $schools->delete();
-       return back()->with('success', 'School Delete Successfully');
+        return back()->with('success', 'School Delete Successfully');
     }
 
     public function saveSchool(Request $request)
@@ -43,6 +47,16 @@ class SchoolController extends Controller
             'max_staff' => 'required|integer|min:1',
             'expairy_date' => 'required|date',
         ]);
+
+        $user = User::where('phone', $request->phone)->first();
+        if ($user) {
+            return back()->with('error', 'Phone no is already exists.');
+        }
+
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            return back()->with('error', 'Email Id is already exists.');
+        }
 
         $school = School::create([
             'name' => $request->school_name,

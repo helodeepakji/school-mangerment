@@ -14,4 +14,9 @@ class Role extends Model
         'school_id',
         'role_name',
     ];
+
+    public function school()
+    {
+        return $this->belongsTo(School::class);
+    }
 }

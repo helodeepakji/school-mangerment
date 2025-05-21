@@ -94,9 +94,9 @@
                                             {{$item->role_name}}
                                         </td>
                                         <td>
-                                            <img src="assets/images/buildings.png'" alt="company-logo" width="32"
+                                            <img src="/assets/images/users/avatar-1.jpg" alt="company-logo" width="32"
                                                 class="rounded-circle">
-                                            Test School
+                                            {{$item->school->name}}
                                         </td>
                                         <td>1000</td>
                                         <td>
@@ -141,7 +141,12 @@
                         <div class="col-md-6">
                             <div class="mb-12">
                                 <label class="form-label">School Name</label>
-                                <input type="text" class="form-control" name="school_name" required>
+                                <Select class="form-control" name="school_id" required>
+                                    <option value="">Select School</option>
+                                    @foreach ($schools as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @endforeach
+                                </Select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -178,15 +183,20 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-12">
-                                <label class="form-label">Role Name</label>
-                                <input type="text" class="form-control" name="role_name" id="role_name" required>
-                                <input type="hidden" name="id" id="role_id">
+                                <label class="form-label">School Name</label>
+                                <Select class="form-control" name="school_id" id="school_id" required>
+                                    <option value="">Select School</option>
+                                    @foreach ($schools as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @endforeach
+                                </Select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-12">
-                                <label class="form-label">School Name</label>
-                                <input type="text" class="form-control" name="school_name" id="school_name" required>
+                                <label class="form-label">Role Name</label>
+                                <input type="text" class="form-control" name="role_name" id="role_name" required>
+                                <input type="hidden" name="id" id="role_id">
                             </div>
                         </div>
                     </div>
@@ -264,7 +274,7 @@
             success : function(response){
                 $('#role_name').val(response.role_name);
                 $('#role_id').val(response.id);
-                $('#school_name').val(response.school_id);          
+                $('#school_id').val(response.school_id);          
             }
         });
     }

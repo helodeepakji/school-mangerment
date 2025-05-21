@@ -88,9 +88,9 @@
       </li>
 
       <li class="side-nav-item">
-        <a href="apps-chat.php" class="side-nav-link">
-          <i class="ri-message-3-line"></i>
-          <span> Chat </span>
+        <a href="/role-list" class="side-nav-link">
+          <i class="ri-creative-commons-by-line"></i>
+          <span>Role List </span>
         </a>
       </li>
 
