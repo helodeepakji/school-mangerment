@@ -93,6 +93,20 @@
           <span>Role List </span>
         </a>
       </li>
+      
+      <li class="side-nav-item">
+        <a href="/class-list" class="side-nav-link">
+          <i class=" ri-user-smile-line"></i>
+          <span>Class List </span>
+        </a>
+      </li>
+      
+      <li class="side-nav-item">
+        <a href="/user-list" class="side-nav-link">
+          <i class=" ri-user-line"></i>
+          <span>User List </span>
+        </a>
+      </li>
 
       <li class="side-nav-item">
         <a

@@ -15,6 +15,12 @@ class RoleController extends Controller
         return view('role-list',compact('roles','schools'));
     }
     
+    public function getRoleBySchool($id)
+    {
+        $role = Role::where('school_id',$id)->get();
+        return response()->json($role);
+    }
+    
     public function getRole($id)
     {
         $role = Role::where('id',$id)->first();
