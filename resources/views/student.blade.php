@@ -209,6 +209,133 @@
 </div>
 <!-- Add Student Modal -->
 
+<!-- Update Student -->
+<div class="modal fade" id="edit_student">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Student</h4>
+                <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ti ti-x"></i>
+                </button>
+            </div>
+            <form action="/student-update" method="post">
+                @csrf
+                <div class="modal-body pb-0">
+                    <div class="row">
+                        <input type="hidden" name="student_id" id="student_id" required>
+
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" name="name" id="name" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">Father Name</label>
+                                <input type="text" class="form-control" name="father_name" id="father_name" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">Mother Name</label>
+                                <input type="text" class="form-control" name="mother_name" id="mother_name" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" name="dob" id="dob" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">Gender</label>
+                                <select name="gender" id="gender" class="form-control" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">Phone No.</label>
+                                <input type="number" class="form-control" name="phone" id="phone" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">Address</label>
+                                <input type="text" class="form-control" name="address" id="address" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">School</label>
+                                <select name="school_id" id="school_id" class="form-control" required>
+                                    <option value="">Select School</option>
+                                    @foreach ($schools as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">Class</label>
+                                <select name="class_id" id="class_id" class="form-control" required>
+                                    <option value="">Select Class</option>
+                                    @foreach ($classes as $class)
+                                        <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /Update Student -->
+
+<!-- Delete Modal -->
+<div class="modal fade" id="delete_modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <span class="avatar avatar-xl bg-transparent-danger text-danger mb-3">
+                    <i class="ti ti-trash-x fs-36"></i>
+                </span>
+                <h4 class="mb-1">Confirm Delete</h4>
+                <p class="mb-3">You want to delete this student, this cant be undone once you delete.
+                </p>
+                <div class="d-flex justify-content-center">
+                    <a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
+                    <a onclick="deleteStudent()" class="btn btn-danger">Yes, Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Delete Modal -->
+
 @include('layouts.footer')
 
 <!-- Datatables Scripts -->

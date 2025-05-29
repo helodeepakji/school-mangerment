@@ -41,3 +41,5 @@ Route::get('/delete-user/{id}',[UserController::class ,'deleteUser']);
 //Student
 Route::get('/students', [StudentController::class, 'index'])->name('students-list');
 Route::post('/students/save', [StudentController::class, 'saveStudent'])->name('student-store');
+Route::post('/student-update', [StudentController::class ,'editStudent']);
+Route::get('/delete-student/{id}',[StudentController::class ,'deleteStudent']);

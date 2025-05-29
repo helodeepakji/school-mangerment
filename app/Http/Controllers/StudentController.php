@@ -52,4 +52,35 @@ class StudentController extends Controller
 
         return back()->with('success', 'Student Created Successfully');
     }
+    
+    public function editStudent(Request $request)
+{
+    $request->validate([
+        'school_id' => 'required|integer|exists:schools,id',
+        'class_id' => 'required|integer|exists:classes,id',
+        'student_id' => 'required|integer|exists:students,id',
+        'name' => 'required|string',
+        'father_name' => 'required|string',
+        'mother_name' => 'required|string',
+        'dob' => 'required|date',
+        'gender' => 'required|in:male,female,other',
+        'phone' => 'required|digits_between:7,15',
+        'address' => 'required|string',
+    ]);
+
+    $student = Student::findOrFail($request->student_id);
+    $student->name = $request->name;
+    $student->father_name = $request->father_name;
+    $student->mother_name = $request->mother_name;
+    $student->dob = $request->dob;
+    $student->gender = $request->gender;
+    $student->phone = $request->phone;
+    $student->address = $request->address;
+    $student->school_id = $request->school_id;
+    $student->class_id = $request->class_id;
+
+    $student->save();
+
+    return back()->with('success', 'Student updated successfully');
+}
 }
