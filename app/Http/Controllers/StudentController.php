@@ -3,49 +3,51 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\ClassModel;
+use App\Models\School;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    // Show the list of students
-   public function index()
-{
-    $students = Student::with(['school', 'role'])->get();
-    $schools = \App\Models\School::all();
-    $roles = \App\Models\Role::all();
 
-    return view('student', compact('students', 'schools', 'roles'));
-}
+    public function index()
+    {
+        $students = Student::with(['school', 'class'])->get();
+        $schools = School::all();
+        $class = ClassModel::all();
 
-    // Save a new student
+        return view('student', compact('students', 'schools', 'class'));
+    }
+
     public function saveStudent(Request $request)
     {
+        
         $request->validate([
             'school_id' => 'required|integer|exists:schools,id',
-            'role_id' => 'required|integer',
+            'class_id' => 'required|integer|exists:classes,id',
             'gender' => 'required|in:male,female,other',
-            'phone' => 'required|digits_between:7,15|unique:students',
-            'email' => 'required|email|unique:students',
+            'phone' => 'required|digits_between:7,15',
+            'roll_no' => 'required|integer',
+            'father_name' => 'required|string|max:255',
+            'mother_name' => 'required|string|max:255',
             'full_name' => 'required|string|max:255',
+            'dob' => 'required|date',
+            'address' => 'required|string',
         ]);
+        
 
-
-
-     $existingPhone = Student::where('phone', $request->phone)->first();
-if ($existingPhone) {
-    return back()->with('error', 'Phone no is already exists.');
-}
-
-$existingEmail = Student::where('email', $request->email)->first();
-if ($existingEmail) {
-    return back()->with('error', 'Email is already exists.');
-}
-
-Student::create([
-    'email' => $request->email,
-    'phone' => $request->phone,
-    'school_id' => $request->school_id,
-]);
+        Student::create([
+            'name' => $request->full_name,
+            'mother_name' => $request->mother_name,
+            'father_name' => $request->father_name,
+            'gender' => $request->gender,
+            'roll_no' => $request->roll_no,
+            'address' => $request->address,
+            'dob' => $request->dob,
+            'phone' => $request->phone,
+            'school_id' => $request->school_id,
+            'class_id' => $request->class_id,
+        ]);
 
 
         return back()->with('success', 'Student Created Successfully');

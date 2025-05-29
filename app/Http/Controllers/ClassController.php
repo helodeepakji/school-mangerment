@@ -22,6 +22,13 @@ class ClassController extends Controller
         return response()->json($class);
     }
 
+
+    public function getClassBySchool($id)
+    {
+        $class = ClassModel::where('school_id', $id)->get();
+        return response()->json($class);
+    }
+
     public function deleteClass($id)
     {
         $class = ClassModel::where('id', $id)->first();

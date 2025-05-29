@@ -8,22 +8,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Student extends Model
 {
     use HasFactory;
-
     protected $table = 'students';
-
     protected $fillable = [
         'name',
-        'email',
+        'mother_name',
+        'father_name',
         'phone',
-        'address',
+        'roll_no',
         'dob',
-        'class',
-        'profile_image',
-        'school_id', 
+        'address',
+        'gender',
+        'class_id',
+        'school_id',
     ];
 
     public function school()
     {
         return $this->belongsTo(School::class);
+    }
+
+    public function class()
+    {
+        return $this->belongsTo(ClassModel::class);
     }
 }

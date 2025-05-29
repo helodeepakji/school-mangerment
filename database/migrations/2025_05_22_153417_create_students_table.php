@@ -13,8 +13,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('students', function (Blueprint $table) {
-            $table->string('phone')->unique()->after('email');
             $table->id();
+            $table->string('name'); 
+            $table->string('mother_name');
+            $table->string('father_name');
+            $table->string('phone');
+            $table->integer('roll_no');
+            $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
+            $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
             $table->timestamps();
         });
     }

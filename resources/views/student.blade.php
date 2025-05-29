@@ -2,7 +2,8 @@
 
 <!-- Datatables CSS -->
 <link href="assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
-<link href="assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+<link href="assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet"
+    type="text/css" />
 
 @include('layouts.menu')
 
@@ -45,23 +46,45 @@
                         <tr>
                             <th>Sno.</th>
                             <th>Name</th>
-                            <th>Email</th>
+                            <th>Class</th>
+                            <th>Date of Birth</th>
+                            <th>Father Name</th>
+                            <th>Mother Name</th>
                             <th>Phone</th>
                             <th>Gender</th>
                             <th>School</th>
-                            <th>Role</th>
+                            <th>Address</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($students as $index => $student)
+                        @php
+                            $i = 0;
+                        @endphp
+                        @foreach($students as $student)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
+                                <td>{{ ++$i }}</td>
                                 <td>{{ $student->name }}</td>
-                                <td>{{ $student->email }}</td>
+                                <td>{{ $student->class->name}}</td>
+                                <td>{{ $student->dob}}</td>
+                                <td>{{ $student->father_name }}</td>
+                                <td>{{ $student->mother_name }}</td>
                                 <td>{{ $student->phone }}</td>
                                 <td>{{ ucfirst($student->gender) }}</td>
-                                <td>{{ $student->school->name ?? 'N/A' }}</td>
-                                <td>{{ $student->role->role_name ?? 'N/A' }}</td>
+                                <td>{{ $student->school->name}}</td>
+                                <td>{{ $student->address}}</td>
+                                <td>
+
+                                    <a href="#edit_user" onclick="getStudent({{$student->id}})" data-bs-toggle="modal"
+                                        data-bs-target="#edit_user">
+                                        <i class="ri-pencil-fill cursor-pointer"></i> </a>
+
+                                    <a href="#delete_modal" data-bs-toggle="modal" data-bs-target="#delete_modal"
+                                        onclick="getDelete({{$student->id}})">
+                                        <i class="ms-2 ri-delete-bin-line cursor-pointer" data-bs-toggle="modal"
+                                            data-bs-target="#delete_modal"></i>
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -83,9 +106,8 @@
                 </button>
             </div>
 
-            <form action="{{ route('students.store') }}" method="post">
+            <form action="{{ route('student-store') }}" method="post">
                 @csrf
-                 <input type="hidden" name="role_id" value="3">
                 <div class="modal-body pb-0">
                     <div class="row">
                         <div class="col-md-6">
@@ -97,8 +119,29 @@
 
                         <div class="col-md-6">
                             <div class="mb-12">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" required>
+                                <label class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" name="dob" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="mb-12">
+                                <label class="form-label">Roll No.</label>
+                                <input type="number" class="form-control" name="roll_no" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">Father Name</label>
+                                <input type="text" class="form-control" name="father_name" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">Mother Name</label>
+                                <input type="text" class="form-control" name="mother_name" required>
                             </div>
                         </div>
 
@@ -121,15 +164,36 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="mb-12">
                                 <label class="form-label">School</label>
-                                <select name="school_id" class="form-control" required>
+                                <select name="school_id" id="school_id" class="form-control" required>
                                     <option value="">Select School</option>
                                     @foreach($schools as $school)
                                         <option value="{{ $school->id }}">{{ $school->name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-12">
+                                <label class="form-label">Class</label>
+                                <select name="class_id" id="class_id" class="form-control" required>
+                                    <option value="">Select Class</option>
+                                    @foreach($class as $cla)
+                                        <option value="{{ $cla->id }}">{{ $cla->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="mb-12">
+                                <label class="form-label">Address</label>
+                                <textarea name="address" class="form-control">
+
+                                </textarea>
                             </div>
                         </div>
                     </div>
@@ -153,3 +217,19 @@
 <script src="assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 <script src="assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
 <script src="assets/js/pages/demo.datatable-init.js"></script>
+<script>
+    $('#school_id').change(() => {
+        var id = $('#school_id').val();
+        $.ajax({
+            url: '/api/getClassBySchool/' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                $('#class_id').html('<option value="">Select Class</option>');
+                response.forEach(element => {
+                    $('#class_id').append(`<option value="${element.id}">${element.name}</option>`);
+                });
+            }
+        });
+    });
+</script>
