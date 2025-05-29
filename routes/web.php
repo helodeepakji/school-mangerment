@@ -5,6 +5,7 @@ use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StudentController;
 
 Route::get('/',function(){
     return view('index');
@@ -37,3 +38,6 @@ Route::post('/user-list',[UserController::class ,'saveUser']);
 Route::post('/user-update', [UserController::class ,'editUser']);
 Route::get('/delete-user/{id}',[UserController::class ,'deleteUser']);
 
+//Student
+Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+Route::post('/students/save', [StudentController::class, 'saveStudent'])->name('students.store');

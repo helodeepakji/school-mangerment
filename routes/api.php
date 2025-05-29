@@ -19,3 +19,4 @@ Route::get('/getRoleBySchool/{id}',[RoleController::class ,'getRoleBySchool']);
 Route::get('/getSchool/{id}',[SchoolController::class ,'getSchool']);
 Route::get('/getClass/{id}',[ClassController::class ,'getClass']);
 Route::get('/getUser/{id}',[UserController::class ,'getUser']);
+Route::get('/getStudent/{id}',[StudentController::class ,'getStudent']);

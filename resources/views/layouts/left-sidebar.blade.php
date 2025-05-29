@@ -108,7 +108,14 @@
         </a>
       </li>
 
-      <li class="side-nav-item">
+       <li class="side-nav-item">
+  <a href="/students" class="side-nav-link">
+    <i class="ri-graduation-cap-line"></i>
+    <span>Student</span>
+  </a>
+</li>
+
+   <li class="side-nav-item">
         <a
           data-bs-toggle="collapse"
           href="#sidebarEmail"

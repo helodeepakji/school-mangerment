@@ -111,4 +111,4 @@ class SchoolController extends Controller
 
         return back()->with('success', 'School Updated Successfully');
     }
-}
+}     
